@@ -1,60 +1,53 @@
-import React from "react";
+import React from 'react';
 import { shallow } from 'enzyme';
-import { mockData } from '../mock-data';
 import Event from '../Event';
+import { mockData } from '../mock-data';
 
 describe('<Event /> component', () => {
-  // let EventWrapper;
-  // beforeAll(() => {
-  //   const EventWrapper = shallow(<Event events={mockData} />);
-  // });
-  test('Show event summary', () => {
-    const EventWrapper = shallow(<Event events={mockData} />);
-    expect(EventWrapper.find(".summary")).toHaveLength(1);
+
+  let EventWrapper;
+  beforeAll(() => {
+    EventWrapper = shallow(<Event event={mockData[1]} />);
   });
 
-  test('Show Description', () => {
-    const EventWrapper = shallow(<Event events={mockData} />);
-    expect(EventWrapper.find(".description")).toHaveLength(1)
-  })
-
-  test('Shows event location', () => {
-    const EventWrapper = shallow(<Event events={mockData} />);
-    expect(EventWrapper.find(".location")).toHaveLength(1);
+  test("Summary is displayed", () => {
+    expect(EventWrapper.find(".summary").text()).toBe('React is Fun');
   });
 
-  test("shows start time", () => {
-    const EventWrapper = shallow(<Event events={mockData} />);
-    expect(EventWrapper.find(".start")).toHaveLength(1);
-  })
+  test("Location is displayed", () => {
+    expect(EventWrapper.find(".location").text()).toBe('Berlin, Germany');
+  });
 
-  test("show end time", () => {
-    const EventWrapper = shallow(<Event events={mockData} />);
-    expect(EventWrapper.find(".end")).toHaveLength(1);
-  })
+  test("Start date and timezone are displayed", () => {
+    expect(EventWrapper.find(".start-date").text()).toBe('2020-05-20T14:00:00+02:00');
+  });
 
-  test("event shows default collapsed", () => {
-    const EventWrapper = shallow(<Event events={mockData} />);
-    expect(EventWrapper.state("collapsed")).toBe(true)
-  })
+  test("End date and timezone are displayed", () => {
+    expect(EventWrapper.find(".end-date").text()).toBe('2020-05-20T15:00:00+02:00');
+  });
 
-  test("button onclick should show info", () => {
-    const EventWrapper = shallow(<Event events={mockData} />);
-    EventWrapper.setState({
-      collapsed: true,
-    });
-    EventWrapper.find(".toggleShow").simulate("click");
-    expect(EventWrapper.state("collapsed")).toBe(false);
-  })
+  test("Show details button is rendered", () => {
+    expect(EventWrapper.find(".show-details")).toHaveLength(1);
+  });
 
-  test("button onclick should collapse info", () => {
-    const EventWrapper = shallow(<Event events={mockData} />);
-    EventWrapper.setState({
-      collapsed: true,
-    });
-    EventWrapper.find(".toggleShow").simulate("click");
+  test("event element is collapsed by default", () => {
     expect(EventWrapper.state("collapsed")).toBe(true);
-  })
+  });
 
+  test("clicking on show details button shows extra details", () => {
+    EventWrapper.setState({
+      collapsed: true,
+    });
+    EventWrapper.find(".show-details").simulate("click");
+    expect(EventWrapper.state("collapsed")).toBe(false);
+  });
+
+  test("clicking on hide details button hides extra details", () => {
+    EventWrapper.setState({
+      collapsed: false,
+    });
+    EventWrapper.find(".hide-details").simulate("click");
+    expect(EventWrapper.state("collapsed")).toBe(true);
+  });
 
 });

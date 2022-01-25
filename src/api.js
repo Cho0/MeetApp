@@ -16,6 +16,11 @@ export const getEvents = async () => {
     NProgress.done();
     return mockData;
   }
+  if (mockData.data) {
+    var locations = extractLocations(mockData.data.events);
+    localStorage.setItem('lastEvents', JSON.stringify(mockData.data));
+    localStorage.setItem('locations', JSON.stringify(locations));
+  }
 
   const token = await getAccessToken();
 

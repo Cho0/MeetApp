@@ -5,7 +5,7 @@ import CitySearch from './CitySearch';
 import { extractLocations, getEvents, checkToken, getAccessToken } from './api';
 import NumberOfEvents from './NumberOfEvents';
 import WelcomeScreen from './WelcomeScreen';
-
+import { OfflineAlert } from "./Alert"
 
 
 
@@ -28,6 +28,15 @@ class App extends Component {
         if (this.mounted) {
           this.setState({ events, locations: extractLocations(events) });
         }
+      });
+    }
+    if (!navigator.onLine) {
+      this.setState({
+        OfflineAlert: 'You are not connected to the internet'
+      });
+    } else {
+      this.setState({
+        OfflineAlert: ''
       });
     }
   }

@@ -32,11 +32,11 @@ class App extends Component {
     }
     if (!navigator.onLine) {
       this.setState({
-        OfflineAlert: 'You are not connected to the internet'
+        offlineAlert: 'You are not connected to the internet'
       });
     } else {
       this.setState({
-        OfflineAlert: ''
+        offlineAlert: ''
       });
     }
   }
@@ -79,6 +79,7 @@ class App extends Component {
           updateNumberOfEvents={(e) => this.updateNumberOfEvents(e)}
         />
         <EventList events={this.state.events} />
+        <OfflineAlert text={this.state.offlineAlert} />
         <WelcomeScreen showWelcomeScreen={this.state.showWelcomeScreen} getAccessToken={() => { getAccessToken() }} />
       </div>
     );

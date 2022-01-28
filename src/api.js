@@ -12,21 +12,24 @@ export const extractLocations = (events) => {
 export const getEvents = async () => {
   NProgress.start();
 
-  if (window.location.href.startsWith('http://localhost')) {
+  if (window.location.href.startsWith("http://localhost")) {
     NProgress.done();
     return mockData;
   }
+
   if (!navigator.onLine) {
     const data = localStorage.getItem("lastEvents");
     NProgress.done();
-    return data ? JSON.parse(data).events : [];;
+    return data ? JSON.parse(data).events : [];
   }
 
   const token = await getAccessToken();
 
   if (token) {
     removeQuery();
-    const url = 'https://rlyin1sbgb.execute-api.eu-central-1.amazonaws.com/dev/api/get-events/' + token;
+    const url =
+      "https://rlyin1sbgb.execute-api.eu-central-1.amazonaws.com/dev/api/get-events/" +
+      token;
     const result = await axios.get(url);
     if (result.data) {
       var locations = extractLocations(result.data.events);

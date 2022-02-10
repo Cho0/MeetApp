@@ -1,43 +1,86 @@
-User Stories
-<------------------------------------------------------------------------>
+The "MeetApp" is a progressive web app that uses serverless funtions. In the project, a lot of time was put into 4 types of testing.
+-Unit Testing
+-Integration Testing
+-User Acceptance
+-End-to-End testing
+And also included continuous integration
+The Project also includes the use of a google API and AWS for authentication.
 
-FEATURE 2: SHOW/HIDE AN EVENT'S DETAILS
-Scenario 1: An event element is collapsed by default
-Scenario 2: User can expand an event to see its details
-Scenario 3: User can collapse an event to hide its details
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Key features:
+● Filter events by city.
+● Show/hide event details.
+● Specify number of events.
+● Use the app when offline.
+● View a chart showing the number of upcoming events by city.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Feature: Filter events by city
 
-FEATURE 3: SPECIFY NUMBER OF EVENTS
-Scenario 1: When user hasn’t specified a number, 32 is the default number
-Scenario 2: User can change the number of events they want to see
+  Scenario: When a user hasn't searched for a city, show upcoming events from all cities.
+    Given user hasn't searched for any city
+    When the user opens the app
+    Then the user should see the list of upcoming events.
 
-FEATURE 4: USE THE APP WHEN OFFLINE
-Scenario 1: Show cached data when there’s no internet connection
-Scenario 2: Show error when user changes the settings (city, time range)
+  Scenario: User should see a list of suggestions when they search for a city
+    Given the main page is open
+    When the user starts typing in the city textbox
+    Then the user should receive a list of cities (suggestions) that match what they've typed.
 
-FEATURE 5: DATA VISUALIZATION
-Scenario 1: Show a chart with the number of upcoming events in each city
+  Scenario: User can select a city from the suggested list
+    Given user was typing "Berlin" in the city textbox
+    And the list of suggested cities is showing
+    When the user selects a city (e.g., "Berlin, Germany") from the list
+    Then their city should be changed to that city (i.e., "Berlin, Germany")
+    And the user should receive a list of upcoming events in that city.
+    
+    
+Feature: Show and Hide event details
+
+  Scenario: When the user first loads into the page, the event details should be collapsed.
+    Given the main page is open
+    When the page first loads
+    Then event details should be collapsed by default.
+
+  Scenario: User clicks show details button, it should show more detail
+    Given an event's detail is collapsed
+    When the user clicks on show detail button
+    Then the event details should show.
+
+  Scenario: When the user clicks the show detail button while expanded, event should collapse
+    Given an event's detail is showing
+    When the user clicks on show detail button
+    Then the event details should collapse.    
 
 
-<------------------------------------------------------------------------>
-Gherkin (“Given-When-Then”) syntax
+Feature: Specify number of events
+
+  Scenario: When user hasn't specified a number, 16 is the default number.
+    Given user opened the app or selected a city
+    When the user does not specify the number of shown events
+    Then a list of 16 events should return to the user
+
+  Scenario: User can change the number of events they want to see.
+    Given user opened the app or selected a city
+    When the user does specify the number of shown events
+    Then a list of events with the specified number should be returned to the user
+    
+    
+Feature: Use the app when offline.
+
+  Secenario: When user has no internet connection, app will still function with data.
+    Given user is on main page
+    When there is no internet connection
+    Then event list, search area bar and number of events should still work.
 
 
-FEATURE 2: SHOW/HIDE AN EVENT'S DETAILS
-As a user,
-I should be able to expand and collapes event details
-So that the information I need is easier to read.
+Feature: View a chart showing the number of upcoming events by city.
 
-FEATURE 3: SPECIFY NUMBER OF EVENTS
-As a user,
-I should be able to see a certain number of events at a time and change that number
-So that I can get a bigger scope or smaller scope of informations at once.
-
-FEATURE 4: USE THE APP WHEN OFFLINE
-As the program,
-I should be able to work while the app is offline
-So that the user will be able to get notifications and access saved information when the internet is offline.
-
-FEATURE 5: DATA VISUALIZATION
-As a user,
-I want to see the city with the most upcoming events in each city
-So that I can plan ahead to join events that may be closeby where ever I may want to go
+  Scenario: I should be able to see graphical data about events.
+    Given user is on main page
+    When the main page loads
+    Then graphs stating number of events in each area and percentage of events relevant to different genres should appear.
+    
+  Scenario: The Graphs should update when settings are changed.
+    Given user is on main page
+    When the city and/or the number of events are changed
+    Then graphs should show respective statistics.

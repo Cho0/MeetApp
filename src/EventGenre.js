@@ -1,11 +1,10 @@
-import { setCustomData } from 'atatus-spa';
 import React, { useEffect, useState } from 'react';
 import { Pie, PieChart, Cell, ResponsiveContainer } from 'recharts';
 
 
 const EventGenre = ({ events }) => {
   const [data, setData] = useState([]);
-  useEffect(() => { setCustomData(() => getData()) }, [events]);
+  useEffect(() => { setData(() => getData()) }, [events]);
 
   const getData = () => {
     const genres = ['React', 'JavaScript', 'Node', 'jQuery', 'AngularJS'];

@@ -84,3 +84,16 @@ Feature: View a chart showing the number of upcoming events by city.
     Given user is on main page
     When the city and/or the number of events are changed
     Then graphs should show respective statistics.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+![image](https://user-images.githubusercontent.com/86700844/153513533-e5da99da-617e-451f-9c7f-33ad2ef2387c.png)
+
+
+
+
+
+
+![image](https://user-images.githubusercontent.com/86700844/153513590-d195ab76-415b-4191-90b2-4c34bdba8152.png)
+
+
